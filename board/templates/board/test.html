@@ -1,0 +1,91 @@
+{% extends "base.html" %}
+{% load djangoIA_tags %}
+
+{% block title %}Test Template{% endblock title %}
+
+{% block buttons %}
+
+	<button>Left</button>
+    <button>Up</button>
+    <button>Down</button>
+    <button>Right</button>
+    <div id="log"></div>
+	</br> 
+	{% testest1 %}
+	<script>
+		window.onload=init;
+		let debugOutput = "";
+		let logs = document.getElementById("log");
+		let spans = document.getElementsByClassName("ansi40");
+		let allSpans = document.getElementsByTagName("span");
+		let nbCells = 62;
+		let player1 = allSpans[0];
+		let player2 = allSpans[allSpans.length - 1];
+		let nbTurns = 1;
+		
+		player1.position = [0,0];
+		player1.tag = "Joueur 1";
+		player2.position = [8,8];
+		player2.tag = "Joueur 2"
+
+		let currentPlayer = player1;
+		/*while(nbCells > 0){
+			playTurn(player1);
+			currentPlayer = player2;
+			playTurn(player2);
+
+			nbTurns++;
+		}*/
+
+		function init(){
+			//Players init
+			player1.position = [0,0];
+			player1.tag = "Joueur 1";
+			player2.position = [8,8];
+			player2.tag = "Joueur 2";
+			//Buttons init
+			buttons = document.getElementsByTagName("button");
+
+			for(let button of buttons){
+				button.addEventListener("click", move);
+			}
+
+		}
+		function playTurn(player){
+			let elem = document.createElement("p");
+			elem.innerHTML = `Tour ${nbTurns} - ${player.tag} joue.`;
+			logs.appendChild(elem);
+
+
+		}
+		function move(event){
+			let target = event.target.innerHTML.toLowerCase();
+			let player = currentPlayer.tag;
+			let output = `Cible de l'événement : ${target}. Joueur : ${player}`;
+
+			alert(output);
+
+
+			debugOutput = get_move(target);
+			alert(debugOutput);
+		}
+		function get_move(target){
+			if(target === "left"){
+				return "{{'left'|testest}}"
+			}
+			if(target === "right"){
+				return "{{'right'|testest}}"
+			}
+			if(target === "up"){
+				return "{{'up'|testest}}"
+			}
+			if(target === "down"){
+				return "{{'down'|testest}}"
+			}
+			}
+	</script>
+	</br>
+	
+
+
+{% endblock buttons %}
